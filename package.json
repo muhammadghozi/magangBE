@@ -1,0 +1,15 @@
+{
+  "name": "devg2",
+  "version": "1.0.0",
+  "description": "magang backend upi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"index"
+  },
+  "author": "Muhammad Ghozi",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^3.24.0"
+  }
+}
