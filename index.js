@@ -2,10 +2,7 @@
 const fastify = require('fastify')({ logger: true });
 const path = require('path')
 
-//register plugin register
-fastify.register(require('fastify-static'), require("./config/static").public;
-fastify.register(require('fastify-static'), require("./config/static").assets;
-fastify.register(require('fastify-static'), require("./config/static").forms;
+//register plugin registerh
 fastify.register(require('fastify-static'), {
   root: path.join(__dirname, "public"),
   prefix: '/public', // optional: default '/'
@@ -37,7 +34,7 @@ fastify.get("/apaya", async (request, reply) => {
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen(process.env.PORT);
+    await fastify.listen(process.env.PORT,"0.0.0.0");
   } catch (err) {
   
     fastify.log.error(err)
