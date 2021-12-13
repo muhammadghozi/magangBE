@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css' rel='stylesheet' />
+<style>
+ 
+  body {
+    color: #404040;
+    font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  h1 {
+    font-size: 22px;
+    margin: 0;
+    font-weight: 400;
+    line-height: 20px;
+    padding: 20px 2px;
+  }
+
+  a {
+    color: #404040;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #101010;
+  }
+
+  /* The page is split between map and sidebar - the sidebar gets 1/3, map
+  gets 2/3 of the page. You can adjust this to your personal liking. */
+  .sidebar {
+    position: absolute;
+    width: 33%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+  }
+
+  .map {
+    position: absolute;
+    left: 33.3333%;
+    width: 66.6666%;
+    top: 0;
+    bottom: 0;
+  }
+
+  .heading {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 10px;
+  }
+
+  .listings {
+  height: 100%;
+  overflow: auto;
+  padding-bottom: 60px;
+}
+
+.listings .item {
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.listings .item:last-child { border-bottom: none; }
+
+.listings .item .title {
+  display: block;
+  color: crimson;
+  font-weight: 700;
+}
+
+.listings .item .title small { font-weight: 400; }
+
+.listings .item.active .title,
+.listings .item .title:hover { color: #442c2c; 
+}
+
+.listings .item.active {
+  background-color: #f8f8f8;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+  border-left: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: crimson;
+  border-radius: 0;
+}
+.marker {
+border: none;
+cursor: pointer;
+height: 56px;
+width: 56px;
+background-image: url(marker52.png);
+}
+.mapboxgl-popup {
+padding-bottom: 50px;
+}
+ 
+.mapboxgl-popup-close-button {
+display: none;
+}
+.mapboxgl-popup-content {
+font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+padding: 0;
+width: 180px;
+}
+.mapboxgl-popup-content h3 {
+background: crimson;
+color: #fff;
+margin: 0;
+padding: 10px;
+border-radius: 3px 3px 0 0;
+font-weight: 700;
+margin-top: -15px;
+}
+ 
+.mapboxgl-popup-content h4 {
+margin: 0;
+padding: 10px;
+font-weight: 400;
+}
+ 
+.mapboxgl-popup-content div {
+padding: 10px;
+}
+ 
+.mapboxgl-popup-anchor-top > .mapboxgl-popup-content {
+margin-top: 15px;
+}
+ 
+.mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
+border-bottom-color: #91c949;
+}
+</style>
+</head>
+<body>
+    <div class='sidebar'>
+        <div class='heading'>
+          <h1>Peta Persebaran Hotel di Kota Bandung</h1>
+        </div>
+        <div id='listings' class='listings'></div>
+      </div>
+      <div id="map" class="map"></div>
+
+      <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoidmV0aHgzNyIsImEiOiJja3Z0OHJyeDdiZ3lkMnhwZ3F4ZWFqNXFxIn0.t21QsXf4H506jdbvUuT5aQ';
+      
+        const map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/streets-v11',
+          center: [107.613144, -6.905977],
+          zoom: 13,
+          scrollZoom: true
+      });
+
+      const stores = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+        107.61042908823369,
+        -6.916122387687182
+        ]
+      },
+      "properties": {
+        "phoneFormatted": "+62224232286",
+        "phone": "+62224232286",
+        "address": "éL Hotel Royale Bandung",
+        "city": "Jl. Merdeka No.2, Braga, Kec. Sumur Bandung",
+        "country": "id",
+        "crossStreet": "Jl. Merdeka No.2, Braga, Kec. Sumur Bandung",
+        "postalCode": "20005",
+        "state": "D.C."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+        107.6125242676653,
+       -6.901264071026766
+        ]
+      },
+      "properties": {
+        "phoneFormatted": "+622287330330",
+        "phone": "+622287330330",
+        "address": "Four Points by Sheraton Bandung",
+        "city": "Jl. Ir. H. Juanda No.46, Citarum, Kec. Bandung Wetan",
+        "country": "id",
+        "crossStreet": "Jl. Ir. H. Juanda No.46",
+        "postalCode": "20037",
+        "state": "D.C."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+         107.612039099012,
+        -6.900352209868135
+        ]
+      },
+      "properties": {
+        "phoneFormatted": "+622220507777",
+        "phone": "+622220507777",
+        "address": "Moxy Hotel ",
+        "city": "Jl. Ir. H. Juanda No.69, Tamansari, Kec. Bandung Wetan",
+        "country": "id",
+        "crossStreet": "Jl. Ir. H. Juanda No.69, Tamansari, Kec. Bandung Wetan",
+        "postalCode": "20036",
+        "state": "D.C."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+        107.6041902505786,
+        -6.904861901037788
+        ]
+      },
+      "properties": {
+        "phoneFormatted": "+62224211001",
+        "phone": "+622242110018",
+        "address": "Novotel Bandung",
+        "city": "Jl. Cihampelas No.23 25, Pasir Kaliki, Kec. Cicendo",
+        "country": "id",
+        "crossStreet": "Jl. Cihampelas No.23 25, Pasir Kaliki, Kec. Cicendo",
+        "postalCode": "20007",
+        "state": "D.C."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+         107.59624712074975,
+        -6.899937231865889
+        ]
+      },
+      "properties": {
+        "phoneFormatted": "+622282602020",
+        "phone": "+6222826020208",
+        "address": "Ibis Pasteur",
+        "city": "Jl. Dr. Djunjunan No.22, Sukabungah, Kec. Sukajadi",
+        "country": "id",
+        "crossStreet": "l. Dr. Djunjunan No.22, Sukabungah, Kec. Sukajadi",
+        "postalCode": "20003",
+        "state": "D.C."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+         107.5877082943285,
+        -6.895635351892014
+        ]
+      },
+      "properties": {
+        "address": "Simply Homy Pasteur",
+        "city": "Jl. Dr. Djunjunan Dalam No.2, Pajajaran, Kec. Cicendo",
+        "country": "id",
+        "postalCode": "20740",
+        "state": "MD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+         107.5977756714318,
+          3-6.913114371898442
+        ]
+      },
+      "properties": {
+        "phoneFormatted": "+622286066888",
+        "phone": "+622286066888",
+        "address": "Hilton Bandung",
+        "cc": "US",
+        "city": "Jl. HOS Tjokroaminoto No.41-43, Arjuna, Kec. Cicendo",
+        "country": "id",
+        "postalCode": "20814",
+        "state": "MD"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+         107.60899591354983,
+        -6.906631844414484
+        ]
+      },
+      "properties": {
+        "phoneFormatted": "+62224231456",
+        "phone": "+62224231456",
+        "address": "Serela Merdeka Hotel",
+        "city": "Jl. Purnawarman No.23, Tamansari, Kec. Bandung Wetan",
+        "country": "id",
+        "crossStreet": "Jl. Purnawarman No.23, Tamansari, Kec. Bandung Wetan",
+        "postalCode": "20190",
+        "state": "VA"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+         107.59778153864153,
+        -6.906946733108794
+        ]
+      },
+      "properties": {
+        "phoneFormatted": "+62224208222",
+        "phone": "+62224208222",
+        "address": "Atlantic City Hotel Bandung",
+        "city": "Jl. Pasir Kaliki No.126, Pasir Kaliki, Kec. Cicendo",
+        "country": "id",
+        "crossStreet": "Jl. Pasir Kaliki No.126, Pasir Kaliki, Kec. Cicendo",
+        "postalCode": "22203",
+        "state": "VA"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+         107.59807830354625,
+        -6.911915022606264
+        ]
+      },
+      "properties": {
+        "phoneFormatted": "+622284281111",
+        "phone": "+622284281111",
+        "address": "Hotel Citradream Bandung",
+        "city": "Jl. Pasir Kaliki No.36-42, Pasir Kaliki, Kec. Cicendo",
+        "country": "id",
+        "postalCode": "19003",
+        "state": "PA"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+         107.60431496691825,
+        -6.913298722058965
+        ]
+      },
+      "properties": {
+        "phoneFormatted": "+62224240000",
+        "phone": "+62224240000",
+        "address": "Arion Swiss-Belhotel Bandung",
+        "city": "Jl. Otto Iskandar Dinata No.16, Pasir Kaliki, Kec. Sumur Bandung",
+        "country": "id",
+        "postalCode": "19104",
+        "state": "PA"
+      }
+    }
+  ]
+};
+/* Assign a unique ID to each store */
+stores.features.forEach(function (store, i) {
+  store.properties.id = i;
+});
+
+map.on('load', () => {
+  /* Add the data to your map as a layer */
+  map.addSource('places', {
+'type': 'geojson',
+'data': stores,
+});
+  addMarkers();
+  buildLocationList(stores);
+});
+
+function addMarkers() {
+/* For each feature in the GeoJSON object above: */
+for (const marker of stores.features) {
+/* Create a div element for the marker. */
+const el = document.createElement('div');
+/* Assign a unique `id` to the marker. */
+el.id = `marker-${marker.properties.id}`;
+/* Assign the `marker` class to each marker for styling. */
+el.className = 'marker';
+ 
+/**
+* Create a marker using the div element
+* defined above and add it to the map.
+**/
+new mapboxgl.Marker(el, { offset: [0, -23] })
+.setLngLat(marker.geometry.coordinates)
+.addTo(map);
+ 
+/**
+* Listen to the element and when it is clicked, do three things:
+* 1. Fly to the point
+* 2. Close all other popups and display popup for clicked store
+* 3. Highlight listing in sidebar (and remove highlight for all other listings)
+**/
+el.addEventListener('click', (e) => {
+/* Fly to the point */
+flyToStore(marker);
+/* Close all other popups and display popup for clicked store */
+createPopUp(marker);
+/* Highlight listing in sidebar */
+const activeItem = document.getElementsByClassName('active');
+e.stopPropagation();
+if (activeItem[0]) {
+activeItem[0].classList.remove('active');
+}
+const listing = document.getElementById(
+`listing-${marker.properties.id}`
+);
+listing.classList.add('active');
+});
+}
+}
+ 
+/**
+* Add a listing for each store to the sidebar.
+**/
+function buildLocationList(stores) {
+for (const store of stores.features) {
+/* Add a new listing section to the sidebar. */
+const listings = document.getElementById('listings');
+const listing = listings.appendChild(document.createElement('div'));
+/* Assign a unique `id` to the listing. */
+listing.id = `listing-${store.properties.id}`;
+/* Assign the `item` class to each listing for styling. */
+listing.className = 'item';
+ 
+/* Add the link to the individual listing created above. */
+const link = listing.appendChild(document.createElement('a'));
+link.href = '#';
+link.className = 'title';
+link.id = `link-${store.properties.id}`;
+link.innerHTML = `${store.properties.address}`;
+ 
+/* Add details to the individual listing. */
+const details = listing.appendChild(document.createElement('div'));
+details.innerHTML = `${store.properties.city}`;
+if (store.properties.phone) {
+details.innerHTML += ` &middot; ${store.properties.phoneFormatted}`;
+}
+ 
+/**
+* Listen to the element and when it is clicked, do four things:
+* 1. Update the `currentFeature` to the store associated with the clicked link
+* 2. Fly to the point
+* 3. Close all other popups and display popup for clicked store
+* 4. Highlight listing in sidebar (and remove highlight for all other listings)
+**/
+link.addEventListener('click', function () {
+for (const feature of stores.features) {
+if (this.id === `link-${feature.properties.id}`) {
+flyToStore(feature);
+createPopUp(feature);
+}
+}
+const activeItem = document.getElementsByClassName('active');
+if (activeItem[0]) {
+activeItem[0].classList.remove('active');
+}
+this.parentNode.classList.add('active');
+});
+}
+}
+ 
+/**
+* Use Mapbox GL JS's `flyTo` to move the camera smoothly
+* a given center point.
+**/
+function flyToStore(currentFeature) {
+map.flyTo({
+center: currentFeature.geometry.coordinates,
+zoom: 15
+});
+}
+ 
+/**
+* Create a Mapbox GL JS `Popup`.
+**/
+function createPopUp(currentFeature) {
+const popUps = document.getElementsByClassName('mapboxgl-popup');
+if (popUps[0]) popUps[0].remove();
+const popup = new mapboxgl.Popup({ closeOnClick: false })
+.setLngLat(currentFeature.geometry.coordinates)
+.setHTML(
+`<h3>Hotel</h3><h4>${currentFeature.properties.address}</h4>`
+)
+.addTo(map);
+}
+</script>
+</body>
+</html>
