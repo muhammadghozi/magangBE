@@ -287,6 +287,26 @@ section .title::after{
     font-weight: 500;
     margin: 10px 0 7px 0;
 }
+
+.map {
+    padding-left: 130px;
+}
+.titlepage {
+    font-size: 20px;
+    font-weight: 200;
+    margin-bottom: 3px;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+}
+.titlepage2 {
+    font-size: 18px;
+    font-weight: 200;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+    color: crimson;
+}
 /* skills section styling */
 
 .skills .skills-content .column{
@@ -650,3 +670,4 @@ footer span a:hover{
         line-height: 38px;
     }
 }
+

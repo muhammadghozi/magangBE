@@ -17,11 +17,14 @@
   "devDependencies": {
     "nodemon": "^2.0.15"
   },
-  "nodemon config":{
+  "nodemon config":{ 
     "ignore": [
       "*/node_modules",
       ".gitignore",
       "package*.json"
     ]
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
