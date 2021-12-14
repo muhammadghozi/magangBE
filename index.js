@@ -1,6 +1,6 @@
 // Require the framework and instantiate it
 const fastify = require('fastify')({ logger: true });
-const path = require('path')
+const path = require('path');
 
 //register plugin registerh
 fastify.register(require('fastify-static'), {
@@ -22,23 +22,23 @@ fastify.register(require('fastify-static'), {
 });
 
 // Declare a route
-fastify.get("/public/", async (request, reply) => {
+fastify.get("/public", async (request, reply) => {
   reply.sendFile ("index.html"); // serving path.join(__dirname, 'public', 'index.html') directly
 });
 
 // Declare a route
 fastify.get("/apaya", async (request, reply) => {
-  return { hello: 'apaya' }
+  return { hello: 'apaya' };
 });
 
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen(process.env.PORT,"0.0.0.0");
+    await fastify.listen(5000);
   } catch (err) {
-  
-    fastify.log.error(err)
-    process.exit(1)
+    fastify.log.error(err);
+    process.exit(1);
   }
 };
+
 start();
