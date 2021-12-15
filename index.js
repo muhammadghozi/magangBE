@@ -16,18 +16,18 @@ fastify.register(require('fastify-static'), {
 });
 
 fastify.register(require('fastify-static'), {
-  root: path.join(__dirname, "public/forms"),
+  root: path.join(__dirname, "../public/forms"),
   prefix: '/forms', // optional: default '/'
   decorateReplay: false,
 });
 
 // Declare a route
-fastify.get("/public", async (request, reply) => {
+fastify.get("../public", async (request, reply) => {
   reply.sendFile ("index.html"); // serving path.join(__dirname, 'public', 'index.html') directly process.env.PORT,"0.0.0.0"
 });
 
 // Declare a route
-fastify.get("/apaya", async (request, reply) => {
+fastify.get("../apaya", async (request, reply) => {
   return { hello: 'apaya' };
 });
 
