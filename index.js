@@ -22,7 +22,7 @@ fastify.register(require('fastify-static'), {
 });
 
 // Declare a route
-fastify.get("../public", async (request, reply) => {
+fastify.get("/", async (request, reply) => {
   reply.sendFile ("index.html"); // serving path.join(__dirname, 'public', 'index.html') directly process.env.PORT,"0.0.0.0"
 });
 
@@ -40,5 +40,5 @@ const start = async () => {
     process.exit(1);
   }
 };
-
+  
 start();
