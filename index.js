@@ -4,13 +4,13 @@ const path = require('path');
 
 //register plugin registerh
 fastify.register(require('fastify-static'), {
-  root: path.join(__dirname, "public"),
-  prefix: '/public', // optional: default '/'
+  root: path.join(__dirname, "../public"),
+  prefix: '/', // optional: default '/'
   decorateReplay: false,
 });
 
 fastify.register(require('fastify-static'), {
-  root: path.join(__dirname, "public/assets"),
+  root: path.join(__dirname, "../public/assets"),
   prefix: '/assets', // optional: default '/'
   decorateReplay: false,
 });
@@ -23,7 +23,7 @@ fastify.register(require('fastify-static'), {
 
 // Declare a route
 fastify.get("/public", async (request, reply) => {
-  reply.sendFile ("index.html"); // serving path.join(__dirname, 'public', 'index.html') directly
+  reply.sendFile ("index.html"); // serving path.join(__dirname, 'public', 'index.html') directly process.env.PORT,"0.0.0.0"
 });
 
 // Declare a route
@@ -34,7 +34,7 @@ fastify.get("/apaya", async (request, reply) => {
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen(process.env.PORT,"0.0.0.0");
+    await fastify.listen(process.env.PORT,"0.0.0.0");  
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
